@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { Message } from "./Message";
 
-export const SimleForm = () => {
+export const SimpleForm = () => {
   const [formState, setFormState] = useState({
     user: "strider",
     email: "fernando@google.es",
@@ -14,22 +15,17 @@ export const SimleForm = () => {
   };
 
   useEffect(() => {
-    console.log("componente renderizado por primera vez");
+    // console.log("componente renderizado por primera vez");
   }, []);
 
-
-  
   useEffect(() => {
-    console.log("formulario acambiado");
+    // console.log("formulario acambiado");
   }, [formState]);
 
-
-    
   useEffect(() => {
-    console.log("formulario acambiado");
-  }, [formState]);
+    // console.log("email acambiado");
+  }, [email]);
 
-  
   return (
     <>
       <h1>Formulario Simple</h1>
@@ -50,6 +46,7 @@ export const SimleForm = () => {
         value={email}
         onInput={onInputChange}
       />
+      {user === "strider" && <Message></Message>}
     </>
   );
 };
