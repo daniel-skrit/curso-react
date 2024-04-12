@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { AuthLayout } from "../layout/AuthLayout";
-import { useForm } from "../hooks";
+import { useForm } from "../../hooks";
 import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { startCreatinguserWithEmailPassword } from "../../store/auth/thunks";
@@ -58,13 +58,16 @@ export const RegisterPage = () => {
 
   return (
     <AuthLayout title="Crear cuenta">
-      <Backdrop
+      {/* <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isCHeckingAuthentication}
       >
         <CircularProgress color="inherit" />
-      </Backdrop>
-      <form onSubmit={onSubmit}>
+      </Backdrop> */}
+      <form
+        onSubmit={onSubmit}
+        className="animate__animated animate__fadeIn animate__faster"
+      >
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField

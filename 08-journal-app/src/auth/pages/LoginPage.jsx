@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { AuthLayout } from "../layout/AuthLayout";
-import { useForm } from "../hooks";
+import { useForm } from "../../hooks";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkingAuthentication,
@@ -24,7 +24,6 @@ export const LoginPage = () => {
   const dispatch = useDispatch();
 
   const { status, errorMessage } = useSelector((state) => state.auth);
-  
 
   const isAuthenticated = useMemo(() => status === "checking", [status]);
 
@@ -45,13 +44,16 @@ export const LoginPage = () => {
 
   return (
     <AuthLayout title="Login">
-      <Backdrop
+      {/* <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isAuthenticated}
       >
         <CircularProgress color="inherit" />
-      </Backdrop>
-      <form onSubmit={onSubmit}>
+      </Backdrop> */}
+      <form
+        onSubmit={onSubmit}
+        className="animate__animated animate__fadeIn animate__faster"
+      >
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField

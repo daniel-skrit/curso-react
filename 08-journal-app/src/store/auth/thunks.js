@@ -1,5 +1,6 @@
 import {
   loginWithEmailPassword,
+  logoutfirebase,
   registerUserWithEmailPassword,
   signInWithGoogle,
 } from "../../firebase/providers";
@@ -29,21 +30,27 @@ export const startCreatinguserWithEmailPassword = ({
 }) => {
   return async (dispatch) => {
     dispatch(checkingCredentials());
-    const { ok, uid, photoURL, errorMessage} = await registerUserWithEmailPassword({ email, password, displayName });
-    if(!ok) return dispatch( logout({errorMessage}))
-    dispatch ( login( { uid, photoURL, displayName, email}))
+    const { ok, uid, photoURL, errorMessage } =
+      await registerUserWithEmailPassword({ email, password, displayName });
+    if (!ok) return dispatch(logout({ errorMessage }));
+    dispatch(login({ uid, photoURL, displayName, email }));
   };
 };
 
-
-export const startLoginWithEmailPassword = ({
-  email,
-  password,
-}) => {
+export const startLoginWithEmailPassword = ({ email, password }) => {
   return async (dispatch) => {
     dispatch(checkingCredentials());
-    const { ok, uid, photoURL, errorMessage, displayName} = await loginWithEmailPassword({ email, password });
-    if(!ok) return dispatch( logout({errorMessage}))
-    dispatch ( login( { uid, photoURL, displayName, email}))
+    const { ok, uid, photoURL, errorMessage, displayName } =
+      await loginWithEmailPassword({ email, password });
+    if (!ok) return dispatch(logout({ errorMessage }));
+    dispatch(login({ uid, photoURL, displayName, email }));
+  };
+};
+
+export const startLogout = () => {
+  return async (dispatch) => {
+    await logoutfirebase();
+
+    dispatch(logout({ errorMessage: "" }));
   };
 };
