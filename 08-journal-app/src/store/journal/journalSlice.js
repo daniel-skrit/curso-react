@@ -3,10 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 export const journalSlice = createSlice({
   name: "name",
   initialState: {
-    isSaving: true,
+    isSaving: false,
     messageSaved: "",
     notes: [],
     active: null,
+    imageUrls: [],
     // active2: {
     //     id: "",
     //     title: "",
@@ -16,11 +17,39 @@ export const journalSlice = createSlice({
     // }
   },
   reducers: {
-    addNewEmptynNote: (state, action) => {},
-    setActiveNote: (state, action) => {},
-    setNotes: (state, action) => {},
-    setSaving: (state) => {},
-    updateNote: (state, action) => {},
+    savingNewNote: (state) => {
+      state.isSaving = true;
+    },
+    addNewEmptynNote: (state, action) => {
+      state.notes.push(action.payload);
+      state.isSaving = false;
+    },
+    setActiveNote: (state, action) => {
+      state.active = action.payload;
+      state.messageSaved = ``;
+    },
+    setNotes: (state, action) => {
+      state.notes = action.payload;
+    },
+    setSaving: (state) => {
+      state.isSaving = true;
+      state.messageSaved = ``;
+    },
+    updateNote: (state, action) => {
+      state.isSaving = false;
+      state.notes = state.notes.map((note) => {
+        return note.id != action.payload.id ? note : action.payload;
+      });
+      state.messageSaved = `${action.payload.title}, actualizada correctamente`;
+    },
+
+    setPhotosToActiveNote: (state, action) => {
+      if (state.active.imageURLS != null) {
+        state.active.imageURls = [];
+      }
+      state.active.imageUrls = [...state.active.imageURls, ...action.payload];
+      state.isSaving = false;
+    },
     deleteNodeById: (state, action) => {},
   },
 });
@@ -32,4 +61,6 @@ export const {
   setNotes,
   setSaving,
   updateNote,
+  savingNewNote,
+  setPhotosToActiveNote,
 } = journalSlice.actions;
