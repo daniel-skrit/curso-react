@@ -1,23 +1,29 @@
 const express = require("express");
 const { dbConnection } = require("./database/config.js");
- require("dotenv").config();
+const cors = require("cors");
+require("dotenv").config();
 
 // console.log(process.env)
 
- // Crear el servidor de express
+// Crear el servidor de express
 const app = express();
 
 // Base de datos
 dbConnection();
 
+//CORS
+app.use(cors());
+
 // DIrectorio Publico
-app.use( express.static("public") )
+app.use(express.static("public"));
 
 // Lectura y parseo
-app.use( express.json() )
+app.use(express.json());
 
 //Rutas
-app.use("/api/auth", require("./routes/auth.js"))
+app.use("/api/auth", require("./routes/auth.js"));
+app.use("/api/events", require("./routes/events.js"));
+
 
 // Escuchar peticiones
 app.listen(process.env.PORT, () => {
