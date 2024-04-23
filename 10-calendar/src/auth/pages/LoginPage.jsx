@@ -1,5 +1,7 @@
 import "./LoginPage.css";
 import { useAuthStore, useForm } from "../../hooks";
+import { useEffect } from "react";
+import Swal from "sweetalert2";
 const loginFormFields = {
   loginEmail: "",
   loginPassword: "",
@@ -12,24 +14,54 @@ const registerFormFields = {
   registerPassword2: "",
 };
 export const LoginPage = () => {
-  const { loginEmail, loginPassword, onInputChange:onLoginInputChange } = useForm(loginFormFields);
-  const { registerEmail, registerName, registerPassword, registerPassword2, onInputChange: onRegisterInputChange } = useForm(registerFormFields);
-  const { startLogin } = useAuthStore();
+  const {
+    loginEmail,
+    loginPassword,
+    onInputChange: onLoginInputChange,
+  } = useForm(loginFormFields);
+  const {
+    registerEmail,
+    registerName,
+    registerPassword,
+    registerPassword2,
+    onInputChange: onRegisterInputChange,
+  } = useForm(registerFormFields);
+  const { startLogin, startRegister, errorMessage } = useAuthStore();
+
+  useEffect(() => {
+    if (errorMessage !== undefined) {
+      Swal.fire("Error en la autenticacion", errorMessage, "error");
+    }
+  }, [errorMessage]);
 
   const loginSubmit = (event) => {
     event.preventDefault();
-    startLogin({ email: loginEmail, password: loginPassword})
-  }
+    startLogin({ email: loginEmail, password: loginPassword });
+  };
+
   const registerSubmit = (event) => {
     event.preventDefault();
-    console.log({ registerEmail,registerPassword, registerName, })
-  }
+    if (registerPassword !== registerPassword2) {
+      Swal.fire(
+        "Error en registro",
+        "Las contraseñas no coinciden",
+        "error"
+      );
+      return;
+    }
+    startRegister({
+      email: registerEmail,
+      password: registerPassword,
+      name: registerName,
+    });
+  };
+
   return (
     <div className="container login-container">
       <div className="row">
         <div className="col-md-6 login-form-1">
           <h3>Ingreso</h3>
-          <form onSubmit={loginSubmit} >
+          <form onSubmit={loginSubmit}>
             <div className="form-group mb-2">
               <input
                 type="text"
